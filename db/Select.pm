@@ -16,12 +16,14 @@ sub run
     my $client =
         MongoDB->connect();
 
-    my $db =
-        $client->get_database( $args{site} );
-    my $data =
-        $db->get_collection( $args{type} );
+    my $content =
+        $args{site}
+        .'.'
+        .$args{type};
 
-    return 1;
+    my $collection = $client->ns($content);
+
+    return $collection;
 }
 
 1;

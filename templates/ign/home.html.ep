@@ -1,0 +1,15 @@
+% layout 'default';
+% title 'Home';
+
+% while ( my $doc = $review->next )
+% {
+    %= t div => class => 'col-sm-6 col-md-4' => begin
+        %= t div => class => 'thumbnail' => begin
+            %= t div => class => 'caption' => begin
+                %= t h5 => begin
+                    %= link_to $doc->{title} => $doc->{link}
+                % end
+            % end
+        % end
+    % end
+% }

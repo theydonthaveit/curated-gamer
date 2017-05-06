@@ -1,31 +1,48 @@
 package MasterScrapper;
 use strict;
 use warnings;
+use experimental;
 
 use Data::Dumper;
 use Mojo::Base 'Mojo';
 
-use JSON qw( from_json );
+use JSON qw( from_json to_json );
 
 use Web::Scraper;
 
 use Moo;
 use namespace::clean;
 
+no if ($] >= 5), 'warnings' => 'experimental';
+
 sub run
 {
     my $self = shift;
-    my %urls = @_;
+    my %args = @_;
 
-    # my $content_article = $self->request_content($urls{articles});
-    my $content_review = $self->request_content($urls{reviews});
+    my $content_article =
+        $self->request_content(
+            $args{articles}
+        );
+    my $content_review =
+        $self->request_content(
+            $args{reviews}
+        );
 
-    # my $info_article = $self->retrieve_info($content_article);
-    my $info_review = $self->retrieve_info($content_review);
+    my $info_article =
+        $self->retrieve_info(
+            content => $content_article,
+            site => $args{site}
+        );
+    my $info_review =
+        $self->retrieve_info(
+            content => $content_review,
+            site => $args{site}
+        );
 
     return {
-        # articles => $info_article,
-        reviews => $info_review
+        articles => from_json($info_article),
+        reviews => from_json($info_review)
     };
 }
 
@@ -60,50 +77,62 @@ sub request_content
 sub retrieve_info
 {
     my $self = shift;
-    my $content = shift;
+    my %args = @_;
 
-#     if (from_json($content->{body})){
-#     return from_json($content->{body})
-# }
-    my $res = ign_scrapper($content->{body});
+    my $res;
+
+    if ( $args{content}->{body} =~ m/<\w+>/ )
+    {
+        $res =
+            $self->site_scrapper(
+                content => $args{content}->{body},
+                site => $args{site}
+            );
+    }
+    else
+    {
+        $res = $args{content}->{body};
+    }
+
+    return $res;
 }
 
-sub ign_scrapper
+sub site_scrapper
 {
-    my $content = shift;
+    my $self = shift;
+    my %args = @_;
+    my $scraper;
 
-    my $scraper =
-        scraper
+    given ( my $site = $args{site} )
+    {
+        when ( $site eq 'ign' )
         {
-            process 'div[class="topgames-module"]', main =>
-            scraper
-            {
-                process 'div[class="games"] div[class="column-game"]', "games[]" =>
+            $scraper =
                 scraper
                 {
-                    process 'div div[class="game-details-content"] a[class="game-title"]', link => '@href';
-                    process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
-                    process 'a[class="rating"]', rating => 'TEXT';
+                    process 'div[class="topgames-module"]', $args{site} =>
+                    scraper
+                    {
+                        process 'div[class="games"] div[class="column-game"]', "articles[]" =>
+                        scraper
+                        {
+                            process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
+                            process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
+                            process 'a[class="rating"]', rating => 'TEXT';
+                        };
+                    }
                 };
-            }
-        };
-
-    my $res =
-        $scraper->scrape($content);
-
-    my $reviews;
-
-    foreach my $link ( @{$res->{main}->{games}} )
-    {
-        $reviews =
+        }
+        default
         {
-            link => $link->{link},
-            title => $link->{title},
-            rating => $link->{rating}
+            die 'fuck this shit';
         }
     }
 
-    print Dumper($reviews);
+    my $res =
+        $scraper->scrape($args{content});
+
+    return to_json($res);
 }
 
 1;
