@@ -123,6 +123,24 @@ sub site_scrapper
                     }
                 };
         }
+        when ( $site eq 'gamespot' )
+        {
+            $scraper =
+                scraper
+                {
+                    process 'div[class="topgames-module"]', $args{site} =>
+                    scraper
+                    {
+                        process 'div[class="games"] div[class="column-game"]', "articles[]" =>
+                        scraper
+                        {
+                            process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
+                            process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
+                            process 'a[class="rating"]', rating => 'TEXT';
+                        };
+                    }
+                };
+        }
         default
         {
             die 'fuck this shit';

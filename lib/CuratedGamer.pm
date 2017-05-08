@@ -12,8 +12,12 @@ sub startup {
   my $r = $self->routes;
 
   # Normal route to controller
-  $r->get('/')->to('example#welcome');
+  $r->get('/')->to('ign#home');
   $r->get('/ign')->to('ign#home');
+  $r->get('/gamespot')->to('gamespot#home');
+  $r->get('/kotaku')->to('kotaku#home');
+  $r->get('/gamefaqs')->to('gamefaqs#home');
+  $r->get('/nfourg')->to('nfourg#home');
 }
 
 1;

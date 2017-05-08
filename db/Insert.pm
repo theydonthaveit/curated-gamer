@@ -67,7 +67,7 @@ sub run_reviews
     my $data =
         $db->get_collection( $args{type} );
 
-    foreach my $content (@{$args{data}->{ign}->{articles}})
+    foreach my $content (@{$args{data}->{$args{site}}->{articles}})
     {
         $data->insert_one({
             site =>

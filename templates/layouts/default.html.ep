@@ -6,8 +6,53 @@
         href=
         "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
         >
+    <style>
+        img {
+            width: 75px;
+            height: 75px;
+        }
+    </style>
   </head>
   <body>
-      <%= content %>
+      <div class="container-fluid">
+          <div class="row">
+              <nav class="navbar navbar-default">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="#">GG</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Games</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Streams</a></li>
+                  </ul>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+          </div>
+          <div class="col-md-1">
+              <a href="/ign"><img
+              src="https://kodi.tv/sites/default/files/styles/medium_crop/public/addon_assets/plugin.video.ign_com/icon/icon.png?itok=YTCxIy5a" alt=""></a>
+              <a href="/gamespot"><img src="http://icons.veryicon.com/ico/Application/Free%20Cute%20Shaded%20Social/Gamespot.ico" alt=""></a>
+              <a href="/kotaku"><img src="http://d3g9pb5nvr3u7.cloudfront.net/sites/52e2fff4ba622e192f0005e3/488000390/256.png" alt=""></a>
+              <a href="/gamefaqa"><img src="https://lh6.googleusercontent.com/nXJdFMeOy_8QfmSumOcuUHqFmmXnIfAzMgxfl08TZLJveaYI6X-JBYAH7-wQiVmAZLE0eSfr=s128-h128-e365" alt=""></a>
+              <a href="/nfourg"><img src="https://logo.clearbit.com/n4g.com" alt=""></a>
+          </div>
+          <div class="col-md-8">
+              <%= content %>
+          </div>
+          <div class="col-md-3">
+          </div>
+      </div>
   </body>
 </html>

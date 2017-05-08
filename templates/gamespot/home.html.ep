@@ -5,8 +5,6 @@
 % {
     %= t div => class => 'col-sm-6 col-md-4' => begin
         %= t div => class => 'thumbnail' => begin
-            %= t img => src => $doc->{image} => style => 'width: 100%;' => begin
-            % end
             %= t div => class => 'caption' => begin
                 %= t h3 => $doc->{title}
                 %= t h5 => begin
