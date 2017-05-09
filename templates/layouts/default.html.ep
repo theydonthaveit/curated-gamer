@@ -2,16 +2,11 @@
 <html>
   <head>
       <title><%= title %></title>
-      <link
-        href=
-        "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
-        >
-    <style>
-        img {
-            width: 75px;
-            height: 75px;
-        }
-    </style>
+      <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+      <link href="styles/default.css" rel="stylesheet">
+      <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.2/bricklayer.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bricklayer/0.4.3/bricklayer.min.js" integrity="sha256-rHFyYreo/HyTHROB/x7GXtYKXSlcrC2TDxM/yWhsQsQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
   </head>
   <body>
       <div class="container-fluid">
@@ -48,10 +43,8 @@
               <a href="/gamefaqa"><img src="https://lh6.googleusercontent.com/nXJdFMeOy_8QfmSumOcuUHqFmmXnIfAzMgxfl08TZLJveaYI6X-JBYAH7-wQiVmAZLE0eSfr=s128-h128-e365" alt=""></a>
               <a href="/nfourg"><img src="https://logo.clearbit.com/n4g.com" alt=""></a>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-11">
               <%= content %>
-          </div>
-          <div class="col-md-3">
           </div>
       </div>
   </body>
