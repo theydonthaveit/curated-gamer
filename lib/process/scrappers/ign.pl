@@ -2,9 +2,8 @@
 use strict;
 use warnings;
 
-use lib 'process', '../db';
-use MasterScrapper;
-use Insert;
+use process::MasterScrapper;
+use db::Insert;
 use Data::Dumper;
 
 my $url_articles =
@@ -20,14 +19,16 @@ my $db_ready_content =
         site => 'ign'
     );
 
-Insert->new->run_articles(
-    site => 'ign',
-    type => 'articles',
-    data => $db_ready_content->{articles}
-);
-
-Insert->new->run_reviews(
-    site => 'ign',
-    type => 'reviews',
-    data => $db_ready_content->{reviews}
-);
+    print Dumper($db_ready_content);
+#
+# Insert->new->run_articles(
+#     site => 'ign',
+#     type => 'articles',
+#     data => $db_ready_content->{articles}
+# );
+#
+# Insert->new->run_reviews(
+#     site => 'ign',
+#     type => 'reviews',
+#     data => $db_ready_content->{reviews}
+# );

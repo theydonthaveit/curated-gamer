@@ -9,6 +9,9 @@ use Time::Local;
 use Moo;
 use namespace::clean;
 
+# http://search.cpan.org/~capoeirab/WWW-Shorten-3.093/lib/WWW/Shorten.pm
+# https://www.imagemagick.org/script/perl-magick.php
+
 sub run_articles
 {
     my $self = shift;
@@ -67,7 +70,7 @@ sub run_reviews
     my $data =
         $db->get_collection( $args{type} );
 
-    foreach my $content (@{$args{data}->{$args{site}}->{articles}})
+    foreach my $content (@{$args{data}->{$args{site}}->{reviews}})
     {
         $data->insert_one({
             site =>
