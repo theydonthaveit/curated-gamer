@@ -3,14 +3,13 @@ use strict;
 use warnings;
 
 use Data::Dumper;
+use process:MineArticles;
 use MongoDB;
 use Time::Local;
+use WWW::Shorten 'TinyURL', ':short';
 
 use Moo;
 use namespace::clean;
-
-# http://search.cpan.org/~capoeirab/WWW-Shorten-3.093/lib/WWW/Shorten.pm
-# https://www.imagemagick.org/script/perl-magick.php
 
 sub run_articles
 {
@@ -27,6 +26,8 @@ sub run_articles
 
     foreach my $content ( @{$args{data}->{articles}} )
     {
+        my $link_to_mine = append_site($content->{url}, $args{site_url});
+
         my $published_at_epoch;
         if ( $content->{publishedAt} )
         {
@@ -46,13 +47,18 @@ sub run_articles
             summary =>
                 $content->{description},
             link =>
-                $content->{url},
+                $link_to_mine,
             image =>
                 $content->{urlToImage},
             date =>
                 $published_at_epoch,
             author =>
-                $content->{author}
+                $content->{author},
+            html_content =>
+                MineArticles->new->run(
+                    $link_to_mine,
+                    args{type},
+                    $args{site} )
         });
     }
 }
@@ -72,6 +78,8 @@ sub run_reviews
 
     foreach my $content (@{$args{data}->{$args{site}}->{reviews}})
     {
+        my $link_to_mine = append_site($content->{url}, $args{site_url});
+
         $data->insert_one({
             site =>
                 $args{site},
@@ -80,12 +88,36 @@ sub run_reviews
             title =>
                 $content->{title},
             link =>
-                $content->{url},
+                $link_to_mine,
             rating =>
                 $content->{rating},
+            html_content =>
+                MineArticles->new->run(
+                    $link_to_mine,
+                    args{type},
+                    $args{site} )
         });
     }
 }
 
+sub append_site
+{
+    my $link = shift;
+    my $site = shift;
+
+    unless ( $link =~ m/wwww|http|https/ )
+    {
+        $link =
+            $site
+            . $link;
+    }
+
+    if ( $link =~ m/([^:])\/\// )
+    {
+        $link =~ s/([^:])\/\//$1\//g;
+    }
+
+    return short_link($link);
+}
 
 1;

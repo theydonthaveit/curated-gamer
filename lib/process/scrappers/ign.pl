@@ -16,19 +16,19 @@ my $db_ready_content =
     MasterScrapper->new->run(
         articles => $url_articles,
         reviews => $url_reviews,
-        site => 'ign'
+        site => 'Ign'
     );
 
-    print Dumper($db_ready_content);
-#
 # Insert->new->run_articles(
-#     site => 'ign',
+#     site => 'Ign',
 #     type => 'articles',
-#     data => $db_ready_content->{articles}
+#     data => $db_ready_content->{articles},
+#     site_url => $url_reviews
 # );
 #
 # Insert->new->run_reviews(
-#     site => 'ign',
+#     site => 'Ign',
 #     type => 'reviews',
-#     data => $db_ready_content->{reviews}
+#     data => $db_ready_content->{reviews},
+#     site_url => $url_reviews
 # );

@@ -5,10 +5,14 @@ use experimental;
 
 use Data::Dumper;
 use Mojo::Base 'Mojo';
-
 use JSON qw( from_json to_json );
-
 use Web::Scraper;
+
+use ScrapeStructure::Gamespot;
+use ScrapeStructure::Ign;
+use ScrapeStructure::Gamefaq;
+use ScrapeStructure::Kotaku;
+use ScrapeStructure::Nfourq;
 
 use Moo;
 use namespace::clean;
@@ -104,270 +108,19 @@ sub site_scrapper
 {
     my $self = shift;
     my %args = @_;
-    my $scraper;
 
-    given ( my $site = $args{site} )
-    {
-        when ( $site eq 'ign' )
-        {
-            $scraper =
-                ign_scrape(
-                    $site,
-                    $args{type} )
-        }
-        when ( $site eq 'gamespot' )
-        {
-            $scraper =
-                gamespot_scrape(
-                    $site,
-                    $args{type} )
-        }
-        when ( $site eq 'gamesfaq' )
-        {
-            $scraper =
-                gamesfaq_scrape(
-                    $site,
-                    $args{type} )
-        }
-        when ( $site eq 'kotaku' )
-        {
-            $scraper =
-                kotaku_scrape(
-                    $site,
-                    $args{type} )
-        }
-        when ( $site eq 'nfourq' )
-        {
-            $scraper =
-                nfourq_scrape(
-                    $site,
-                    $args{type} )
-        }
-        default
-        {
-            my $result =
-            {
-                error =>
-                    'no scarppaed data for: '
-                    . $args{site}
-            };
-            die $result;
-        }
-    }
+    my $site = $args{site};
+
+    my $scraper =
+        $site->new->feed_scrape(
+            $site,
+            $args{type}
+        );
 
     my $res =
         $scraper->scrape($args{content});
 
     return to_json($res);
-}
-
-sub ign_scrape
-{
-    my $site = shift;
-    my $scraper;
-
-    $scraper =
-        scraper
-        {
-            process 'div[class="topgames-module"]', $site =>
-            scraper
-            {
-                process 'div[class="games"] div[class="column-game"]', "reviews[]" =>
-                scraper
-                {
-                    process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
-                    process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
-                    process 'a[class="rating"]', rating => 'TEXT';
-                };
-            }
-        };
-
-    return $scraper;
-}
-
-sub gamespot_scrape
-{
-    my $site = shift;
-    my $type = shift;
-    my $scraper;
-
-    if ( $type eq 'article' )
-    {
-        $scraper =
-            scraper
-            {
-                process 'section[class="editorial river js-load-forever-container"]', $site =>
-                scraper
-                {
-                    process 'article', "articles[]" =>
-                    scraper
-                    {
-                        process 'a', url => '@href';
-                        process 'a div h3', title => 'TEXT';
-                        process 'a div p', title => 'TEXT';
-                        process 'a figure div img', image => '@src';
-                    };
-                }
-            };
-    }
-    else
-    {
-        $scraper =
-            scraper
-            {
-                process 'ol[class="reviews-list"]', $site =>
-                scraper
-                {
-                    process 'li[class="reviews-list__item"]', "reviews[]" =>
-                    scraper
-                    {
-                        process 'a', url => '@href';
-                        process 'a div h4', title => 'TEXT';
-                        process 'a div dl dt', rating => 'TEXT';
-                    };
-                }
-            };
-    }
-
-    return $scraper;
-}
-
-sub gamesfaq_scrape
-{
-    my $site = shift;
-    my $type = shift;
-    my $scraper;
-
-    if ( $type eq 'article' )
-    {
-        $scraper =
-            scraper
-            {
-                process 'div[class="topgames-module"]', $site =>
-                scraper
-                {
-                    process 'div[class="games"] div[class="column-game"]', "articles[]" =>
-                    scraper
-                    {
-                        process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
-                        process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
-                        process 'a[class="rating"]', rating => 'TEXT';
-                    };
-                }
-            };
-    }
-    else
-    {
-        $scraper =
-            scraper
-            {
-                process 'div[class="topgames-module"]', $site =>
-                scraper
-                {
-                    process 'div[class="games"] div[class="column-game"]', "articles[]" =>
-                    scraper
-                    {
-                        process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
-                        process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
-                        process 'a[class="rating"]', rating => 'TEXT';
-                    };
-                }
-            };
-    }
-
-    return $scraper;
-}
-
-sub kotaku_scrape
-{
-    my $site = shift;
-    my $type = shift;
-    my $scraper;
-
-    if ( $type eq 'article' )
-    {
-        $scraper =
-            scraper
-            {
-                process 'div[class="topgames-module"]', $site =>
-                scraper
-                {
-                    process 'div[class="games"] div[class="column-game"]', "articles[]" =>
-                    scraper
-                    {
-                        process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
-                        process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
-                        process 'a[class="rating"]', rating => 'TEXT';
-                    };
-                }
-            };
-    }
-    else
-    {
-        $scraper =
-            scraper
-            {
-                process 'div[class="topgames-module"]', $site =>
-                scraper
-                {
-                    process 'div[class="games"] div[class="column-game"]', "articles[]" =>
-                    scraper
-                    {
-                        process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
-                        process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
-                        process 'a[class="rating"]', rating => 'TEXT';
-                    };
-                }
-            };
-    }
-
-    return $scraper;
-}
-
-sub nfourq_scrape
-{
-    my $site = shift;
-    my $type = shift;
-    my $scraper;
-
-    if ( $type eq 'article' )
-    {
-        $scraper =
-            scraper
-            {
-                process 'div[class="topgames-module"]', $site =>
-                scraper
-                {
-                    process 'div[class="games"] div[class="column-game"]', "articles[]" =>
-                    scraper
-                    {
-                        process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
-                        process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
-                        process 'a[class="rating"]', rating => 'TEXT';
-                    };
-                }
-            };
-    }
-    else
-    {
-        $scraper =
-            scraper
-            {
-                process 'div[class="topgames-module"]', $site =>
-                scraper
-                {
-                    process 'div[class="games"] div[class="column-game"]', "articles[]" =>
-                    scraper
-                    {
-                        process 'div div[class="game-details-content"] a[class="game-title"]', url => '@href';
-                        process 'div div[class="game-details-content"] a[class="game-title"]', title => 'TEXT';
-                        process 'a[class="rating"]', rating => 'TEXT';
-                    };
-                }
-            };
-    }
-
-    return $scraper;
 }
 
 1;
