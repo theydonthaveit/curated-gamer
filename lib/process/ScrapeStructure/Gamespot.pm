@@ -17,6 +17,7 @@ sub article_scrape
 {
     my $self = shift;
     my $content = shift;
+    my $type = shift;
     my $scraper;
 
     unless ( defined $content->{body} )
@@ -68,7 +69,7 @@ sub feed_scrape
                     {
                         process 'a', url => '@href';
                         process 'a div h3', title => 'TEXT';
-                        process 'a div p', title => 'TEXT';
+                        process 'a div p', summary => 'TEXT';
                         process 'a figure div img', image => '@src';
                     };
                 }

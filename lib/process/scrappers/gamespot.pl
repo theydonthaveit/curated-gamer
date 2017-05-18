@@ -3,7 +3,6 @@ use strict;
 use warnings;
 
 use process::MasterScrapper;
-use process::MineArticles;
 use db::Insert;
 use Data::Dumper;
 

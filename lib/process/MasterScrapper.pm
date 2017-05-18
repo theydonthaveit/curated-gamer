@@ -8,11 +8,11 @@ use Mojo::Base 'Mojo';
 use JSON qw( from_json to_json );
 use Web::Scraper;
 
-use ScrapeStructure::Gamespot;
-use ScrapeStructure::Ign;
-use ScrapeStructure::Gamefaq;
-use ScrapeStructure::Kotaku;
-use ScrapeStructure::Nfourq;
+use process::ScrapeStructure::Gamespot;
+# use process::ScrapeStructure::Ign;
+# use process::ScrapeStructure::Gamefaq;
+# use process::ScrapeStructure::Kotaku;
+# use process::ScrapeStructure::Nfourq;
 
 use Moo;
 use namespace::clean;
@@ -60,7 +60,11 @@ sub request_content
     my $ua =
         Mojo::UserAgent->new();
 
-    my $tx = $ua->get($url);
+    my $tx =
+        $ua->get(
+            $url =>
+                { 'User-Agent' => 'googlebot.com' } );
+
     my $res = $tx->success;
 
     if ( $res->is_success )
@@ -98,7 +102,7 @@ sub retrieve_info
     }
     else
     {
-        $res = $args{content}->{body};
+        $res = 'error';
     }
 
     return $res;

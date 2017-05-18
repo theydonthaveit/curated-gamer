@@ -8,11 +8,11 @@ use Mojo::Base 'Mojo';
 use JSON qw( from_json to_json );
 use Web::Scraper;
 
-use ScrapeStructure::Gamespot;
-use ScrapeStructure::Ign;
-use ScrapeStructure::Gamefaq;
-use ScrapeStructure::Kotaku;
-use ScrapeStructure::Nfourq;
+use process::ScrapeStructure::Gamespot;
+# use process::ScrapeStructure::Ign;
+# use process::ScrapeStructure::Gamefaq;
+# use process::ScrapeStructure::Kotaku;
+# use process::ScrapeStructure::Nfourq;
 
 use Moo;
 use namespace::clean;
@@ -28,8 +28,8 @@ sub run
         understand_content(
             scrape(
                 follow_link(
-                    $content, $type ),
-                    $site ));
+                    $content ),
+                    $site, $type ));
 
     return {
         html => $manipulated_html
@@ -43,7 +43,10 @@ sub follow_link
     my $ua =
         Mojo::UserAgent->new();
 
-    my $tx = $ua->get($url);
+    my $tx =
+        $ua->get(
+            $url =>
+                { 'User-Agent' => 'googlebot.com' } );
     my $res = $tx->success;
 
     if ( $res->is_success )
@@ -67,8 +70,9 @@ sub scrape
 {
     my $content = shift;
     my $package = shift;
+    my $type = shift;
 
-    return $package->new->article_scrape($content)
+    return $package->new->article_scrape($content, $type)
 }
 
 sub understand_content
