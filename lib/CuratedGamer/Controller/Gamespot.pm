@@ -1,9 +1,9 @@
 package CuratedGamer::Controller::Gamespot;
 
-use lib 'db';
 use Mojo::Base 'Mojolicious::Controller';
+use Mojo::Util 'encode';
 use Data::Dumper;
-use Select;
+use db::Select;
 
 # This action will render a template
 sub home
@@ -12,21 +12,21 @@ sub home
 
     my $content_rew =
         Select->new->run(
-            site => 'gamespot',
+            site => 'Gamespot',
             type => 'reviews'
         );
     my $content_art =
         Select->new->run(
-            site => 'gamespot',
+            site => 'Gamespot',
             type => 'articles'
         );
 
     my $result_rew = $content_rew->find({
-        site => 'gamespot'
+        site => 'Gamespot'
     })->result;
 
     my $result_art = $content_art->find({
-        site => 'gamespot'
+        site => 'Gamespot'
     })->result;
 
     my $result = {
@@ -36,6 +36,8 @@ sub home
 
     $self->render(
         template => 'gamespot/home',
+        format => 'html',
+        auto_escape => 1,
         review => $result
     );
 }

@@ -7,6 +7,7 @@ use Data::Dumper;
 use Mojo::Base 'Mojo';
 use JSON qw( from_json to_json );
 use Web::Scraper;
+use IO::Socket::IP;
 
 use process::ScrapeStructure::Gamespot;
 # use process::ScrapeStructure::Ign;
@@ -61,9 +62,7 @@ sub request_content
         Mojo::UserAgent->new();
 
     my $tx =
-        $ua->get(
-            $url =>
-                { 'User-Agent' => 'googlebot.com' } );
+        $ua->get($url);
 
     my $res = $tx->success;
 

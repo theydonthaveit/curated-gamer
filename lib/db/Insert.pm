@@ -50,7 +50,8 @@ sub run_articles
                 $link_to_mine,
             image =>
                 $content->{image},
-            html_content => $html_content->{html}
+            html_content => $html_content->{html},
+            time => time
         });
     }
 }
@@ -92,7 +93,8 @@ sub run_reviews
                 $link_to_mine,
             rating =>
                 $content->{rating},
-            html_content => $html_content->{html}
+            html_content => $html_content->{html},
+            time => time
         });
     }
 }

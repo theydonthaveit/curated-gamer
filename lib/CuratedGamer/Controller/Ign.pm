@@ -1,9 +1,8 @@
 package CuratedGamer::Controller::Ign;
 
-use lib 'db';
 use Mojo::Base 'Mojolicious::Controller';
 use Data::Dumper;
-use Select;
+use db::Select;
 
 # This action will render a template
 sub home

@@ -7,7 +7,7 @@ use Data::Dumper;
 use Mojo::Base 'Mojo';
 use JSON qw( from_json to_json );
 use Web::Scraper;
-
+use IO::Socket::IP;
 use process::ScrapeStructure::Gamespot;
 # use process::ScrapeStructure::Ign;
 # use process::ScrapeStructure::Gamefaq;
@@ -45,8 +45,7 @@ sub follow_link
 
     my $tx =
         $ua->get(
-            $url =>
-                { 'User-Agent' => 'googlebot.com' } );
+            $url );
     my $res = $tx->success;
 
     if ( $res->is_success )
