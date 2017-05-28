@@ -18,12 +18,15 @@ my $urls =
     # IgnReviewsWritten => 'http://feeds.ign.com/ign/reviews?format=xml',
     # GamespotArticles => 'https://www.gamespot.com/feeds/news/',
     # GamespotReviews => 'https://www.gamespot.com/feeds/reviews/',
-    GamespotVideos => 'https://www.gamespot.com/feeds/video/',
-    # KOTAKU => 'http://feeds.kinja.com/kotaku/vip',
-    # N4G => 'http://n4g.com/rss/news?channel=&sort=latest',
-    # ESCAPE_ARTICLES => 'http://rss.escapistmagazine.com/articles/0.xml',
-    # ESCAPE_NEWS => 'http://rss.escapistmagazine.com/news/0.xml',
-    # PC_GAMER => 'https://disqus.com/home/forum/pcgamerfte/'
+    # GamespotVideos => 'https://www.gamespot.com/feeds/video/',
+    # Kotaku => 'http://kotaku.com/vip.xml',
+    # N4gAll => 'http://n4g.com/rss/news?channel=&sort=latest',
+    # N4gTech => 'http://n4g.com/rss/news?channel=tech&sort=latest',
+    # N4gNextGen => 'http://n4g.com/rss/news?channel=next-gen&sort=latest',
+    # N4gDev => 'http://n4g.com/rss/news?channel=dev&sort=latest',
+    # EscapeArticles => 'http://rss.escapistmagazine.com/articles/0.xml',
+    # EscapeNews => 'http://rss.escapistmagazine.com/news/0.xml',
+    # PcGamer => 'https://disqus.com/home/forum/pcgamerfte/'
 };
 
 sub retrieve_feed

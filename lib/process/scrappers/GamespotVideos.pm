@@ -4,6 +4,7 @@ use warnings;
 
 use process::Insert;
 use XML::Simple;
+use LWP::UserAgent;
 use Data::Dumper;
 use Data::Structure::Util qw( unbless );
 
@@ -23,12 +24,16 @@ sub run
 
         Insert->run(
             title => $base->{'title'},
-            content => $base->{'description'},
+            image =>
+                get_image(
+                    $base->{'description'} ),
             link => $base->{'link'},
             (
                 defined $base->{'content'}->{'encoded'}
                 ? ( description => $base->{'content'}->{'encoded'} )
-                : ( description => $base->{'title'} )
+                : ( description =>
+                        get_description(
+                            $base->{'description'} ))
             )
         )
     }
@@ -36,14 +41,22 @@ sub run
     exit;
 }
 
-sub get_video
+sub get_image
 {
-    my $link = shift;
+    my $image_tag = shift;
 
-    my $ua = LWP::UserAgent();
-    
+    $image_tag =~ m/(<img src=")(.*?)(" width=\"\d+?\" height=\"\d+?\" \/>)/;
 
-    return $video_link;
+    return $2;
+}
+
+sub get_description
+{
+    my $image_tag = shift;
+
+    $image_tag =~ s/<img.*?>\s//g;
+
+    return $image_tag;
 }
 
 1;
