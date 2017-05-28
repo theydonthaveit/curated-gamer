@@ -16,6 +16,8 @@ sub run
     my $site_name = shift;
     my $site_content = shift;
 
+    my $db = 'IGN';
+
     foreach ( $site_content->entries )
     {
         unbless $_;

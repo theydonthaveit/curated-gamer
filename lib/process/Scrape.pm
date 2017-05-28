@@ -13,7 +13,7 @@ use namespace::clean;
 
 my $urls =
 {
-    # IgnArticles => 'http://feeds.ign.com/ign/articles?format=xml',
+    IgnArticles => 'http://feeds.ign.com/ign/articles?format=xml',
     # IgnReviewsVideo => 'http://feeds.ign.com/ign/video-reviews?format=xml',
     # IgnReviewsWritten => 'http://feeds.ign.com/ign/reviews?format=xml',
     # GamespotArticles => 'https://www.gamespot.com/feeds/news/',

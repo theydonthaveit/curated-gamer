@@ -3,6 +3,8 @@ use strict;
 use warnings;
 
 use process::Insert;
+use process::Drop;
+
 use XML::Simple;
 use Data::Dumper;
 use Data::Structure::Util qw( unbless );
@@ -16,12 +18,19 @@ sub run
     my $site_name = shift;
     my $site_content = shift;
 
+    my $db = 'IGN';
+    my $type = 'ARTICLES';
+
+    Drop->run( db => $db );
+
     foreach ( $site_content->entries )
     {
         unbless $_;
         my $base = $_->{'entry'};
 
         Insert->run(
+            db => $db,
+            type => $type,
             title => $base->{'title'},
             description => $base->{'description'},
             link => $base->{'link'},
