@@ -2,9 +2,9 @@ package IgnReviewsVideo;
 use strict;
 use warnings;
 
-use process::Insert;
+use process::db::Insert;
+use process::db::Drop;
 use XML::Simple;
-use Data::Dumper;
 use Data::Structure::Util qw( unbless );
 
 use Moo;
@@ -17,6 +17,11 @@ sub run
     my $site_content = shift;
 
     my $db = 'IGN';
+    my $type = 'VIDEOS';
+
+    Drop->drop_collection(
+        db => $db,
+        collection => $type );
 
     foreach ( $site_content->entries )
     {
@@ -24,14 +29,14 @@ sub run
         my $base = $_->{'entry'};
 
         Insert->run(
+            db => $db,
+            collection => $type,
             title => $base->{'title'},
             description => $base->{'description'},
             guid => $base->{'guid'},
             video => $base->{'enclosure'}->{'url'}
         )
     }
-
-    exit;
 }
 
 1;

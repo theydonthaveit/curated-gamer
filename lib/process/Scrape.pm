@@ -11,21 +11,23 @@ use Mojo::JSON qw( from_json );
 use Moo;
 use namespace::clean;
 
+my $start = time();
+
 my $urls =
 {
     IgnArticles => 'http://feeds.ign.com/ign/articles?format=xml',
-    # IgnReviewsVideo => 'http://feeds.ign.com/ign/video-reviews?format=xml',
-    # IgnReviewsWritten => 'http://feeds.ign.com/ign/reviews?format=xml',
-    # GamespotArticles => 'https://www.gamespot.com/feeds/news/',
-    # GamespotReviews => 'https://www.gamespot.com/feeds/reviews/',
-    # GamespotVideos => 'https://www.gamespot.com/feeds/video/',
-    # Kotaku => 'http://kotaku.com/vip.xml',
-    # N4gAll => 'http://n4g.com/rss/news?channel=&sort=latest',
-    # N4gTech => 'http://n4g.com/rss/news?channel=tech&sort=latest',
-    # N4gNextGen => 'http://n4g.com/rss/news?channel=next-gen&sort=latest',
-    # N4gDev => 'http://n4g.com/rss/news?channel=dev&sort=latest',
-    # EscapeArticles => 'http://rss.escapistmagazine.com/articles/0.xml',
-    # EscapeNews => 'http://rss.escapistmagazine.com/news/0.xml',
+    IgnReviewsVideo => 'http://feeds.ign.com/ign/video-reviews?format=xml',
+    IgnReviewsWritten => 'http://feeds.ign.com/ign/reviews?format=xml',
+    GamespotArticles => 'https://www.gamespot.com/feeds/news/',
+    GamespotReviews => 'https://www.gamespot.com/feeds/reviews/',
+    GamespotVideos => 'https://www.gamespot.com/feeds/video/',
+    Kotaku => 'http://kotaku.com/vip.xml',
+    N4gAll => 'http://n4g.com/rss/news?channel=&sort=latest',
+    N4gTech => 'http://n4g.com/rss/news?channel=tech&sort=latest',
+    N4gNextGen => 'http://n4g.com/rss/news?channel=next-gen&sort=latest',
+    N4gDev => 'http://n4g.com/rss/news?channel=dev&sort=latest',
+    EscapeArticles => 'http://rss.escapistmagazine.com/articles/0.xml',
+    EscapeNews => 'http://rss.escapistmagazine.com/news/0.xml',
     # PcGamer => 'https://disqus.com/home/forum/pcgamerfte/'
 };
 
@@ -89,8 +91,7 @@ sub run_scrape
     return $content;
 }
 
-my $things = retrieve_content(
+retrieve_content(
     retrieve_feed($urls) );
 
-print $things;
 1;

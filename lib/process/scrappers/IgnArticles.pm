@@ -2,11 +2,10 @@ package IgnArticles;
 use strict;
 use warnings;
 
-use process::Insert;
-use process::Drop;
+use process::db::Insert;
+use process::db::Drop;
 
 use XML::Simple;
-use Data::Dumper;
 use Data::Structure::Util qw( unbless );
 
 use Moo;
@@ -21,7 +20,9 @@ sub run
     my $db = 'IGN';
     my $type = 'ARTICLES';
 
-    Drop->run( db => $db );
+    Drop->drop_collection(
+        db => $db,
+        collection => $type );
 
     foreach ( $site_content->entries )
     {
@@ -30,7 +31,7 @@ sub run
 
         Insert->run(
             db => $db,
-            type => $type,
+            collection => $type,
             title => $base->{'title'},
             description => $base->{'description'},
             link => $base->{'link'},
@@ -41,8 +42,6 @@ sub run
             )
         )
     }
-
-    exit;
 }
 
 1;

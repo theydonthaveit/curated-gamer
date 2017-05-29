@@ -2,7 +2,6 @@ package Insert;
 use strict;
 use warnings;
 
-use Data::Dumper;
 use MongoDB;
 
 use Moo;
@@ -19,11 +18,11 @@ sub run
     my $content =
         $args{db}
         .'.'
-        .$args{type};
+        .$args{collection};
 
     my $collection = $client->ns($content);
 
-    $data->insert_one({
+    $collection->insert_one({
         title => $args{title},
         description => $args{description},
         link => $args{link},

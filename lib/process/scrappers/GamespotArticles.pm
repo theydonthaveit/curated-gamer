@@ -2,9 +2,9 @@ package GamespotArticles;
 use strict;
 use warnings;
 
-use process::Insert;
+use process::db::Insert;
+use process::db::Drop;
 use XML::Simple;
-use Data::Dumper;
 use Data::Structure::Util qw( unbless );
 
 use Moo;
@@ -16,12 +16,21 @@ sub run
     my $site_name = shift;
     my $site_content = shift;
 
+    my $db = 'GAMESPOT';
+    my $type = 'ARTICLES';
+
+    Drop->drop_collection(
+        db => $db,
+        collection => $type );
+
     foreach ( $site_content->entries )
     {
         unbless $_;
         my $base = $_->{'entry'};
 
         Insert->run(
+            db => $db,
+            collection => $type,
             title => $base->{'title'},
             description => $base->{'description'},
             link => $base->{'link'},
@@ -32,8 +41,6 @@ sub run
             )
         )
     }
-
-    exit;
 }
 
 1;

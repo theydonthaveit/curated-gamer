@@ -7,14 +7,21 @@ use MongoDB;
 use Moo;
 use namespace::clean;
 
-sub run
+sub drop_collection
 {
     my $self = shift;
     my %args = @_;
 
     my $client =
         MongoDB->connect();
-        $client->get_database( $args{db} )->drop;
+
+    my $content =
+        $args{db}
+        .'.'
+        .$args{collection};
+
+    my $collection = $client->ns($content);
+    $collection->drop;
 }
 
 1;
