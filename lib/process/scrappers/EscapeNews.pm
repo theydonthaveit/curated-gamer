@@ -32,12 +32,12 @@ sub run
             db => $db,
             collection => $type,
             title => $base->{'title'},
-            description => $base->{'description'},
+            content => $base->{'description'},
             link => $base->{'link'},
             (
                 defined $base->{'category'}
-                ? ( content => $base->{'category'} )
-                : ( content => $base->{'title'} )
+                ? ( description => $base->{'category'} )
+                : ( description => $base->{'title'} )
             )
         )
     }

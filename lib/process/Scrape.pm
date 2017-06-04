@@ -11,7 +11,7 @@ use Mojo::JSON qw( from_json );
 use Moo;
 use namespace::clean;
 
-my $start = time();
+my @LOG;
 
 my $urls =
 {
@@ -31,16 +31,34 @@ my $urls =
     # PcGamer => 'https://disqus.com/home/forum/pcgamerfte/'
 };
 
+retrieve_content(retrieve_feed(is_it_available($urls)));
+
+sub is_it_available
+{
+    my $urls = shift;
+    my $available_sites;
+
+    while ( my ($k, $v) = each %$urls )
+    {
+        if (Mojo::UserAgent->new()->get($v)->success->is_success)
+        {
+            $available_sites->{$k} = $v;
+        }
+    }
+
+    return $available_sites;
+}
+
 sub retrieve_feed
 {
-    my $url_hash = shift;
+    my $available_sites = shift;
     my $site_content;
 
     %$site_content = map {
         $_ =>
             XML::Feed->parse(
-                URI->new( $url_hash->{$_} ))
-    } keys %$url_hash;
+                URI->new( $available_sites->{$_} ))
+    } keys %$available_sites;
 
     return $site_content;
 }
@@ -50,14 +68,13 @@ sub retrieve_content
     my $feed_hash = shift;
     my $retrieve_hash;
 
-    %$retrieve_hash =
-        map {
-            $_ =>
-                run_scrape(
-                    find_file($_),
-                    $_,
-                    $feed_hash->{$_} )
-        } keys %$feed_hash;
+    %$retrieve_hash = map {
+        $_ =>
+            run_scrape(
+                find_file($_),
+                $_,
+                $feed_hash->{$_} )
+    } keys %$feed_hash;
 
     return $retrieve_hash;
 }
@@ -90,8 +107,5 @@ sub run_scrape
 
     return $content;
 }
-
-retrieve_content(
-    retrieve_feed($urls) );
 
 1;

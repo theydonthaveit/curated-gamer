@@ -2,6 +2,7 @@ package Insert;
 use strict;
 use warnings;
 
+use process::db::Cleaner;
 use MongoDB;
 
 use Moo;
@@ -24,11 +25,15 @@ sub run
 
     $collection->insert_one({
         title => $args{title},
-        description => $args{description},
+        description =>
+            Cleaner->run(
+                $args{description} ),
         link => $args{link},
         (
             defined $args{content}
-            ? ( content => $args{content} )
+            ? ( content =>
+                    Cleaner->run(
+                        $args{content}) )
             : ( content => undef )
         )
     });
