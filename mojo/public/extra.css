@@ -82,7 +82,7 @@ div#scrollmenu a:hover {
 }
 
 
-// General Variables
+/*// General Variables
 $bg-color: #D8DBE2;
 $accent-color: #58A4B0;
 $primary-color: #373F51;
@@ -280,4 +280,4 @@ body {
 .top-to-bottom.ng-enter.ng-enter-active {
   opacity: 1;
   transform: translateY(0);
-}
+}*/
