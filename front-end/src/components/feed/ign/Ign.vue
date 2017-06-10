@@ -1,5 +1,5 @@
 <template>
-    <h1>IGN review</h1>
+    <h1>This is IGN</h1>
 </template>
 
 <script>

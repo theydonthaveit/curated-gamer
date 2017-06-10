@@ -2,9 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Spock from '@/components/Spock'
-import Feed from '@/components/feeds/Ign/Feed'
+import Feed from '@/components/feed/Feed'
 import Stream from '@/components/streams/Home'
-import Product from '@/components/products/Home'
+// import Product from '@/components/products/Home'
 
 Vue.use(Router)
 
@@ -25,11 +25,11 @@ export default new Router({
             path: '/youtube',
             name: 'Youtube',
             component: Stream
-        },
-        {
-            path: '/amazon',
-            name: 'Amazon',
-            component: Product
         }
+        // {
+        //     path: '/amazon',
+        //     name: 'Amazon',
+        //     component: Product
+        // }
     ]
 })
