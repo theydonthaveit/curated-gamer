@@ -4,6 +4,8 @@ use warnings;
 
 use process::db::Insert;
 use process::db::Drop;
+use process::utils::Concurrent;
+
 use XML::Simple;
 use Data::Structure::Util qw( unbless );
 
@@ -27,8 +29,13 @@ sub run
     {
         unbless $_;
         my $base = $_->{'entry'};
+        my $id;
+
+        my ( $gameinfo, $youtube, $twitter, $instagram, $reddit ) =
+            Concurrent->run($base->{'title'});
 
         Insert->run(
+            id => $id++,
             db => $db,
             collection => $type,
             title => $base->{'title'},
@@ -40,7 +47,11 @@ sub run
                 defined $base->{'content'}->{'encoded'}
                 ? ( description => $base->{'content'}->{'encoded'} )
                 : ( description => $base->{'title'} )
-            )
+            ),
+            youtube => $youtube,
+            twitter => $twitter,
+            instagram => $instagram,
+            reddit => $reddit
         )
     }
 }

@@ -24,6 +24,7 @@ sub run
     my $collection = $client->ns($content);
 
     $collection->insert_one({
+        id => $args{id},
         title => $args{title},
         description =>
             Cleaner->run(
@@ -35,8 +36,34 @@ sub run
                     Cleaner->run(
                         $args{content}) )
             : ( content => undef )
-        )
+        ),
+        youtube => $args{youtube} // '',
+        instagram => $args{instagram} // '',
+        twitter => $args{twitter} // '',
+        reddit => $args{reddit} // ''
     });
+    
+    # ADD SOME LOGGING
+}
+
+sub steam_game_list
+{
+    my $self = shift;
+    my $json_content = shift;
+
+    my $client =
+        MongoDB->connect();
+
+    my $content =
+        $args{db}
+        .'.'
+        .$args{collection};
+
+    my $collection = $client->ns($content);
+
+    $collection->insert_one({$json_content});
+
+    # ADD SOME LOGGING
 }
 
 1;
