@@ -3,7 +3,6 @@ use strict;
 use warnings;
 
 use process::utils::GameInfo;
-use process::utils::Youtube;
 use process::utils::Reddit;
 use process::utils::Twitter;
 use process::utils::Instagram;
@@ -18,12 +17,11 @@ sub run
 
     my $gameinfo = GameInfo->run($game_title);
 
-    my $youtube = Youtube->run($game_title);
     my $twitter = Twitter->run($game_title);
     my $instagram = Instagram->run($game_title);
     my $reddit = Reddit->run($game_title);
 
-    return ( $gameinfo, $youtube, $twitter, $instagram, $reddit );
+    return ( $gameinfo , $twitter, $instagram, $reddit );
 }
 
 1;

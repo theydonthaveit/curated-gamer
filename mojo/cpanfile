@@ -1,1 +1,12 @@
 requires "Mojolicious";
+requires "Moo";
+requires "MongoDB";
+requires "HTML::TokeParser::Simple";
+requires "Web::Scraper";
+requires "Data::Dumper";
+requires "List::MoreUtils";
+requires "XML::Simple";
+requires "XML::Feed";
+requires "Data::Structure::Util";
+requires "File::Find::Rule";
+requires "Mojo";
