@@ -3,17 +3,33 @@ package GameInfo;
 use Mojo;
 use Data::Dumper;
 use JSON;
-# use Project::Libs lib_dirs => [qw(lib/process/db)];
-# use process::db::Select;
-# use process::db::Insert;
+use Project::Libs lib_dirs => [qw(mojo)];
+
+use process::db::Select;
 
 use Moo;
 use namespace::clean;
 
+has game_title => ( is => 'ro' );
+
 sub run
 {
     my $self = shift;
-    my $game_title = shift;
+
+    my ( $publisher, $developer, $rating );
+
+    my $db_content =
+        Select->run(
+            db => 'INFO',
+            collection => 'GAME',
+            game_title => $self->game_title,
+            filter => 'name' );
+
+    return {
+        publisher => $db_content->{publisher},
+        developer => $db_content->{developer},
+        rating => $db_content->{rating}
+    };
 
     # search game title in mongodb
     #
@@ -37,48 +53,6 @@ sub run
     #     type => 1,
     #     category => 0
     # };
-
-    my ( $publisher, $developer, $rating );
-
-    # return {
-    #     publisher => $publisher,
-    #     developer => $developer,
-    #     rating => $rating
-    # };
 }
 
-# sub add_to_db
-# {
-#     my $game_info = shift;
-#
-#     Insert->steam_game_list($game_info);
-# }
-
-sub steam_app_list
-{
-    my $api_key = 'D6A86A7084297049001524BF99C0B86B';
-
-    my $url =
-        "https://api.steampowered.com/ISteamApps/GetAppList/v2/?key="
-        . $api_key
-        . "&format=json";
-
-    my $ua = Mojo::UserAgent->new();
-    my $tx = $ua->get($url);
-    my $json = $tx->res->json;
-    
-    foreach ( $json->{'applist'}->{'apps'} )
-    {
-        print $_;
-    }
-    
-    # print Dumper to_json($tx->res->json);
-}
-
-steam_app_list();
-#
-# sub steam_db_info
-# {https://steamdb.info/app/$app_id/}
-#
-# 1;
 1;
