@@ -10,3 +10,5 @@ requires "XML::Feed";
 requires "Data::Structure::Util";
 requires "File::Find::Rule";
 requires "Mojo";
+requires "JSON";
+requires "Project::Libs";
