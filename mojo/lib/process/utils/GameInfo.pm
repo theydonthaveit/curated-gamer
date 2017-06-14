@@ -3,18 +3,12 @@ package GameInfo;
 use Mojo;
 use Data::Dumper;
 use JSON;
-
-use process::db::Select;
-use process::db::Insert;
+# use Project::Libs lib_dirs => [qw(lib/process/db)];
+# use process::db::Select;
+# use process::db::Insert;
 
 use Moo;
 use namespace::clean;
-
-has ua => (
-    is => 'lazy',
-    isa => sub {
-        Mojo::UserAgent->new()
-    } );
 
 sub run
 {
@@ -67,10 +61,18 @@ sub steam_app_list
     my $url =
         "https://api.steampowered.com/ISteamApps/GetAppList/v2/?key="
         . $api_key
-        "&format=json";
+        . "&format=json";
 
-    my $tx = $self->ua->get($url);
-    print $tx;
+    my $ua = Mojo::UserAgent->new();
+    my $tx = $ua->get($url);
+    my $json = $tx->res->json;
+    
+    foreach ( $json->{'applist'}->{'apps'} )
+    {
+        print $_;
+    }
+    
+    # print Dumper to_json($tx->res->json);
 }
 
 steam_app_list();
