@@ -17,7 +17,7 @@ has game_title =>
 has filter =>
     ( is => 'ro' );
 
-sub run
+sub create
 {
     my $self = shift;
 
@@ -29,11 +29,22 @@ sub run
         . '.'
         . $self->collection;
 
-    my $collection = $client->ns($content);
-
-    return $collection->find_one(
-        $self->filter,
-        $self->game_title );
+    return $client->ns( $content );
 }
+
+sub retrieve_articles
+{
+    my $self = shift;
+    my $collection = shift;
+
+    return $collection->find( $self->filter );
+}
+
+# sub retrieve_games
+# {
+#     # return $collection->find_one(
+#     #     $self->filter,
+#     #     $self->game_title );
+# }
 
 1;
