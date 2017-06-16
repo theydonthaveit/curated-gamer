@@ -3,10 +3,10 @@
         <div class="col-md-12">
             <div class="card-columns">
                 <div class="card">
-                    <img class="card-img-top img-fluid" src="" alt="Card image cap">
+                    <img class="card-img-top img-fluid" src="" alt="">
                     <div class="card-block">
-                        <h4 class="card-title">{{ reviewcard.title }}</h4>
-                        <p class="card-text">{{ reviewcard.description }}</p>
+                        <h4 class="card-title">Review Title</h4>
+                        <p class="card-text">Review Description</p>
                     </div>
                 </div>
             </div>
@@ -21,7 +21,6 @@
 import ReviewArticle from '@/components/feed/ign/ReviewArticle'
 
 export default {
-    props: ['reviewcard'],
     components: {
         appReviewArticle: ReviewArticle
     }
