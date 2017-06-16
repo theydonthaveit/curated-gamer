@@ -27,7 +27,8 @@ sub articles
                 id => $_->{id},
                 title => $_->{title},
                 description => $_->{description},
-                content => $_->{content}->{text}
+                content => $_->{content}->{text},
+                link => $_->{link}
             }
         } $result->result->all;
 
