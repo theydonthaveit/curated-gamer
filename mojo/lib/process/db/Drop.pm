@@ -7,18 +7,20 @@ use MongoDB;
 use Moo;
 use namespace::clean;
 
+has db => ( is => 'ro' );
+has collection => ( is => 'ro' );
+
 sub drop_collection
 {
     my $self = shift;
-    my %args = @_;
 
     my $client =
         MongoDB->connect();
 
     my $content =
-        $args{db}
+        $self->db
         .'.'
-        .$args{collection};
+        .$self->collection;
 
     my $collection = $client->ns($content);
     $collection->drop;

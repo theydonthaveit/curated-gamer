@@ -2,16 +2,24 @@ package Cleaner;
 use strict;
 use warnings;
 use HTML::TokeParser::Simple;
+use HTML::Lint;
 use Web::Scraper;
 use Data::Dumper;
 use List::MoreUtils qw(uniq);
 use Moo;
 use namespace::clean;
 
+# TODO sent HAS properties
+
 sub run
 {
     my $self = shift;
     my $html = shift;
+
+    unless ( $html =~ m/<\w+>/g )
+    {
+        return $html;
+    }
 
     my $cleansed_data =
         _class_html(
@@ -64,7 +72,7 @@ sub _loop_through_tags
     }
     my $res;
 
-    @$res =
+    @{$res} =
         map {
             _class_html_content(
                 $_,
