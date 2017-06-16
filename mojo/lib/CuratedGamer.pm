@@ -1,10 +1,10 @@
 package CuratedGamer;
 use Mojo::Base 'Mojolicious';
-
+use Data::Dumper;
 # This method will run once at server start
 sub startup {
     my $self = shift;
-    
+
     # Router
     my $r = $self->routes;
 

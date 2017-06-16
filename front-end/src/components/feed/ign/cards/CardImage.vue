@@ -10,11 +10,6 @@
 
 <script>
 export default {
-    methods: {
-        loadImageData() {
-
-        }
-    }
 }
 </script>
 
