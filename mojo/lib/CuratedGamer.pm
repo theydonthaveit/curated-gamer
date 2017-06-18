@@ -10,6 +10,7 @@ sub startup {
 
     # Normal route to controller
     $r->get('/api/V1/sites/ign/articles')->to('ign#articles');
+    $r->get('/api/V1/sites/ign/article/:id')->to('ign#article');
 }
 
 1;

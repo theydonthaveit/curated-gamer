@@ -41,4 +41,41 @@ sub articles
     );
 }
 
+sub article
+{
+    my $self = shift;
+    $self->res->headers->cache_control('no-cache');
+    $self->res->headers->access_control_allow_origin('*');
+
+    my $select = Select->new(
+        db => 'IGN',
+        collection => 'ARTICLES',
+        filter => {
+            id => $self->stash('id')
+        }
+    );
+
+    my $result =
+        $select->retrieve_article(
+            $select->create );
+
+    my $articles;
+
+    @{$articles} =
+        map {
+            +{
+                id => $_->{id},
+                title => $_->{title},
+                description => $_->{description},
+                content => $_->{content},
+                link => $_->{link}
+            }
+        } $result->result->all;
+
+    $self->render(
+        json => {
+            articles => $articles }
+    );
+}
+
 1;

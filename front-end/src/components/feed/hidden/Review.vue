@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import ReviewItem from '@/components/feed/ign/ReviewItem'
+import ReviewItem from '@/components/feed/ign/reviews/ReviewItem'
 
 export default {
     components: {
