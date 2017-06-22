@@ -2,7 +2,7 @@ package Select;
 
 use strict;
 use warnings;
-
+use Data::Dumper;
 use MongoDB;
 
 use Moo;
@@ -37,7 +37,15 @@ sub retrieve_articles
     my $self = shift;
     my $collection = shift;
 
-    return $collection->find( $self->filter );
+    return $collection->find({});
+}
+
+sub retrieve_article
+{
+    my $self = shift;
+    my $collection = shift;
+
+    return $collection->find($self->filter);
 }
 
 # sub retrieve_games

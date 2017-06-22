@@ -4,6 +4,7 @@
   "description": "The front end app for the Spock Platform",
   "author": "Alan Williams <theydonthaveit@gmail.com>",
   "private": true,
+  "chromium-args": "--load-extension='./devtools'",
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",

@@ -4,6 +4,7 @@ use warnings;
 
 use Project::Libs lib_dirs => [qw(mojo)];
 
+use process::utils::relevenatcontent::Youtube;
 use process::db::Cleaner;
 use MongoDB;
 
@@ -20,6 +21,7 @@ has content => ( is => 'lazy' );
 has instagram => ( is => 'rw' );
 has twitter => ( is => 'rw' );
 has reddit => ( is => 'rw' );
+has youtube => ( is => 'rw' );
 has json => ( is => 'ro' );
 
 sub run
@@ -51,6 +53,7 @@ sub run
                         $self->content) )
             : ( content => undef )
         ),
+        youtube => get_video($self->title, $self->db) // '',
         instagram => $self->instagram // '',
         twitter => $self->twitter // '',
         reddit => $self->reddit // ''
@@ -77,6 +80,16 @@ sub steam_game_list
         appid => $self->json->{appid},
         name => $self->json->{name}
     });
+}
+
+sub get_video
+{
+    my $title = shift;
+    my $brand = shift;
+
+    my $yt = Youtube->new( search => $title, brand => $brand );
+
+    return $yt->result;
 }
 
 1;
