@@ -16,13 +16,55 @@ has order => (is => 'ro');
 has channel_id => (is => 'rw');
 has video_id => (is => 'rw');
 has video_url => (is => 'rw');
-has video_json => (is => 'rw');
+# has video_json => (is => 'rw');
+
+sub retrieve
+{
+    my $self = shift;
+
+    my $url = 'https://www.googleapis.com/youtube/v3/search';
+    my $params =
+    {
+        key => 'AIzaSyBF1eKRdW7X26cOM4WulU-oSdAcC3vR4g8',
+        part => 'snippet',
+        q => $self->search_param,
+        order => $self->order,
+        type => $self->type,
+        maxResults => $self->max_results,
+        channelId => $self->channel_id
+    };
+
+    my $ua = Mojo::UserAgent->new();
+    my $tx =
+        $ua->get(
+            $url => form => $params );
+
+    my $json = $tx->res->json;
+
+    # return $json;
+}
+
+sub retrieve_video_id
+{
+    my $self = shift;
+
+    my $video_id = $self->{items}->[0]->{id}->{videoId};
+
+    return $video_id;
+}
+
+sub retrieve_channel_id
+{
+    my $self = shift;
+
+    my $channel_id = $self->{items}->[0]->{snippet}->{channelId};
+
+    return $channel_id;
+}
 
 sub result_preview
 {
-    my ($class, %params) = @_;
-
-
+    my $self = shift;
 }
 
 sub result_related
@@ -64,40 +106,6 @@ sub result_article
 #         . $res->{items}->[0]->{id}->{videoId};
 #
 #     return $video_url;
-# }
-
-sub retrieve
-{
-    my $self = shift;
-
-    my $url = 'https://www.googleapis.com/youtube/v3/search';
-    my $params =
-    {
-        key => 'AIzaSyBF1eKRdW7X26cOM4WulU-oSdAcC3vR4g8',
-        part => 'snippet',
-        q => $self->search_param // '',
-        order => $self->order,
-        type => $self->type,
-        maxResults => $self->max_results // '',
-        channelId => $self->channel_id // ''
-    };
-
-    tie %{$params}, 'Tie::IxHash';
-
-    my $ua = Mojo::UserAgent->new();
-    my $tx =
-        $ua->get(
-            $url => form => $params );
-
-    my $json = $tx->res->json;
-
-    bless $self->video_json( $json ), "Youtube";
-}
-
-# sub previews
-# {
-#     # https://www.youtube.com/channel/UCTlVz6WP_SsLRt663JqP6lw/videos
-#     # https://developers.google.com/youtube/v3/docs/search/list
 # }
 
 1;
