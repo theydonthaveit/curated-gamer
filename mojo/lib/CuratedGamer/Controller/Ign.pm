@@ -51,7 +51,7 @@ sub article
         db => 'IGN',
         collection => 'ARTICLES',
         filter => {
-            id => $self->stash('id')
+            id => int($self->stash('id'))
         }
     );
 
@@ -79,3 +79,14 @@ sub article
 }
 
 1;
+
+# { "content" : { "sources" : [ ],
+# "links" : [ "https://twitter.com/insomniacgames/status/875370488251301888",
+# "http://www.ign.com/articles/2017/06/13/spider-man-ps4-coming-in-2018-features-miles-morales-and-peter-parker",
+# "http://www.ign.com/articles/2017/06/17/e3-2017-marvels-spider-man-for-ps4-will-feature-alternate-spidey-suit-options" ],
+# "text" : [
+#     "Marvel's Spider-Man, the upcoming PS4 title from developer Insomniac Games, will feature alternate outfits. ",
+#     "The official Insomniac Twitter account replied fan who asked if the game will feature multiple Spidey suits, providing a simple but affirmative \"Yes.\" ",
+#     "There were no hints as to what variations we may see in the game or how they may be unlocked or applied.
+#     We do, however, know that Ultimate Spider-Man, Miles Morales and Peter Parker will all be featured in the game. ",
+#     "Continue reading…", "Twitter", "Ultimate Spider-Man, Miles Morales and Peter Parker will all be featured", "Continue reading…" ] }
