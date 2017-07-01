@@ -31,21 +31,6 @@
                 <router-link to="/amazon" activeClass="active" tag="li">
                     <a>Products</a>
                 </router-link>
-                <!-- <li class="nav-item dropdown">
-                    <a
-                        class="nav-link dropdown-toggle"
-                        id="dropdown01"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >What is this?
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown01">
-                        <a class="dropdown-item" href="#">Who?</a>
-                        <a class="dropdown-item" href="#">Why?</a>
-                        <a class="dropdown-item" href="#">What?</a>
-                    </div>
-                </li> -->
             </ul>
         </div>
     </nav>
@@ -59,6 +44,9 @@ export default {
 <style>
 #spock_navbar {
     background-color: transparent!important;
+    padding: 20px 50px;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 }
 
 #spock_brand > span#s {
@@ -90,7 +78,7 @@ export default {
     text-decoration: none;
     background-color: #00ADB5;
     color: #EEEEEE;
-    padding: 10px;
+    padding: 18px 10px;
 }
 
 #spock_ul a:active {

@@ -1,8 +1,8 @@
 <template>
-    <span
+    <!--<span
         :id="previewsmall.id"
-        class="scrollsub badge badge-pill badge-default"
-        >{{ previewsmall.name }}</span>
+        class="scrollsub tinyPreview"
+        >{{ previewsmall.name }}</span>-->
 </template>
 
 <script>
@@ -12,4 +12,7 @@ export default {
 </script>
 
 <style>
+.tinyPreview {
+    padding: 10px 10px;
+}
 </style>
