@@ -53,10 +53,10 @@ sub run
                         $self->content) )
             : ( content => undef )
         ),
-        youtube => get_video($self->title, $self->db) // '',
-        instagram => $self->instagram // '',
-        twitter => $self->twitter // '',
-        reddit => $self->reddit // ''
+        youtube => get_video($self->title)
+        # instagram => $self->instagram,
+        # twitter => $self->twitter,
+        # reddit => $self->reddit
     });
 
     # ADD SOME LOGGING
@@ -87,9 +87,11 @@ sub get_video
     my $title = shift;
     my $brand = shift;
 
-    my $yt = Youtube->new( search => $title, brand => $brand );
+    my $yt =
+        Youtube->new(
+            search_param => "$title" );
 
-    return $yt->result;
+    return $yt->retrieve->result_article($title);
 }
 
 1;

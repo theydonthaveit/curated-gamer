@@ -68,7 +68,8 @@ sub article
                 title => $_->{title},
                 description => $_->{description},
                 content => $_->{content},
-                link => $_->{link}
+                link => $_->{link},
+                youtube => $_->{youtube}
             }
         } $result->result->all;
 

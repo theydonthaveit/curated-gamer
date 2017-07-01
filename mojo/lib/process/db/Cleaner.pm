@@ -158,8 +158,9 @@ sub _cleanse
     if ( defined $val )
     {
         $val =~ s/^\s+|\s+$//g;
-        $val =~ s/^GIF$|^GIF\s+$//g;
-        $val =~ s/^Advertisement$//g;
+        $val =~ s/^GIF$|^GIF\s+$//gi;
+        $val =~ s/^Advertisement$//gi;
+        $val =~ s/^Continue reading...//gi;
     }
 
     return $val if defined;

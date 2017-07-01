@@ -9,11 +9,11 @@ use process::utils::relevenatcontent::YoutubeBuild;
 
 my $yt =
     Youtube->new(
-        channel_id => 'UCTlVz6WP_SsLRt663JqP6lw',
-        order => 'date'
+        search_param => "Zelda: Find All the DLC Chests With Our Interactive Map"
     );
 
-# my $video_id = $yt->retrieve->retrieve_video_id;
+my $video_id = $yt->retrieve->result_article("Zelda: Find All the DLC Chests With Our Interactive Map");
+print Dumper $video_id;
 # my $channel_id = $yt->retrieve->retrieve_channel_id;
 
 # print $yt->result_related;
